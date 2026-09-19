@@ -41,7 +41,7 @@ axios.interceptors.response.use(response => {
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
-//let base = 'http://27.124.44.146:9208/v1';
+//let base = 'http://47.86.246.4:7192/v1/';
 let base = 'v1';
 //取消此局回调验证
 export const cancelGame = params => { return axios.post(`${base}/game/cancelGame`, params).then(res => res.data); };

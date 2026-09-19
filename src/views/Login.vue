@@ -1,25 +1,35 @@
 <template>
   <div style="background: url('../../static/myimg/loginbg.jpg') 0% 0% / contain; position: absolute; inset: 0px;">
-    <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">
-      <h3   :class="quntitlesize <= 40? 'title58' :'title38'" >
+ 
+    <!--<el-form :model="ruleForm2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">-->
+     <!-- <h3   :class="quntitlesize <= 40? 'title58' :'title38'" >
         <img width="350" src="../../static/myimg/logo.png">
-        {{ this.quntitle }}
-      </h3>
-      <el-form-item   prop="account">
-        <el-input  type="text" prefix-icon="el-icon-mobile-phone" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
-      </el-form-item>
-      <el-form-item  prop="checkPass">
+    {{ this.quntitle }}
+      </h3>-->
+   
+     <!-- <el-form-item   prop="account"  >
+        <el-input  style="height:70px !important" type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="请输入账号"></el-input>
+      </el-form-item>-->
+      <div class="demo-ruleForm login-container">
+        <input name="account" id="account" type="text" class="accountClass" placeholder="请输入账号" auto-complete="off"  v-model="ruleForm2.account" >
+        <input name="pwd" type="password"  id="pwd"  class="pwdClass" placeholder="请输入密码" auto-complete="off"  v-model="ruleForm2.checkPass" >
+        <button class="buttonClass"  @click="handleSubmit2()"></button> 
+      </div>
+    <!-- <el-form-item  prop="checkPass">
         <el-input type="password" prefix-icon="el-icon-lock"  v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
       </el-form-item>
-      <el-form-item  style="width:100%;">
+      <el-form-item  style="width:100%;margin-top:338px">
         <el-button type="primary" style="width:100%;background-color: #009688;border-color: #009688;"  :loading="logining" @click="handleSubmit2()">登录</el-button>
-      </el-form-item>
-    </el-form>
+      </el-form-item>-->
+      
+
+   <!-- </el-form>-->
   </div>
 </template>
 
 <script>
   import { requestEmployeeLogin ,getQunTitle} from '../api/api';
+  import   encrypt  from '@/utils/encrypto'
     	//import { QRCanvas } from 'qrcanvas-vue';
   //import  moment from 'moment'
 
@@ -49,14 +59,10 @@
       };
     },
     watch:{
-      "ruleForm2.account":{
-        handler(){
-     
-        }
-      }
+
     },
     created(){
-      getQunTitle().then(response => {
+     /* getQunTitle().then(response => {
         console.log('data111',response);
         if(response.code == 200){
           this.quntitle = response.data.team_title;
@@ -69,7 +75,7 @@
           }
           this.$forceUpdate();
         }
-      });
+      });*/
     },
     methods: {
       handleReset2() {
@@ -95,22 +101,56 @@
         }
       },
       handleSubmit2(ev) {
-        //this.deleteCookie();
+        this.deleteCookie();
         var _this = this;
-        this.$refs.ruleForm2.validate((valid) => {
-          if (valid) {
- 
-            this.logining = true;
+       // this.$refs.ruleForm2.validate((valid) => {
+        //  if (valid) {
+            if(this.ruleForm2.account==""){
+                  this.$message({
+                  message: '请输入账号',
+                  type: 'error'
+                });
+                return;
+            }
+            var account = $("#account").val();
+            if(account == ""){
+          this.$message({
+                  message: '请输入账号!',
+                  type: 'error'
+                });
+                return;
+            }
 
-            var loginParams = { account: this.ruleForm2.account, password: this.ruleForm2.checkPass};
+            if(this.ruleForm2.checkPass==""){
+                  this.$message({
+                  message: '请输入密码',
+                  type: 'error'
+                });
+                return;
+            }
+
+          var pwd = $("#pwd").val();
+            if(pwd == ""){
+          this.$message({
+                  message: '请输入密码!',
+                  type: 'error'
+                });
+                return;
+            }
+            this.logining = true;
+          //  var loginParams = { account: this.ruleForm2.account, password: this.ruleForm2.checkPass};
+            var loginParams = { account:encrypt.encryptfunc(this.ruleForm2.account, 'bqoksdjf#$&190ajf','nfjdsj29i#$')
+, password:encrypt.encryptfunc(this.ruleForm2.checkPass, 'changlong@#$%qwe','jz,nvkwpqpo2-')};
+
             requestEmployeeLogin(loginParams).then(data => {
-              console.log('data',data);
+              console.log('data1222',data);
               this.logining = false;
               if (data.code !== 200) {
                 this.$message({
                   message: data.msg,
                   type: 'error'
                 });
+                return;
               } else {
                 localStorage.setItem('end_time_near', data.data.end_time_near);
                 localStorage.setItem('head_domain', data.data.head_domain);
@@ -128,11 +168,11 @@
                     
               }
             });
-          } else {
+          /*} else {
             console.log('error submit!!');
             return false;
           }
-        });
+        });*/
       }
     }
   }
@@ -141,11 +181,13 @@
 
 <style lang="scss" scoped>
   .login-container {
+    background:  url(../../static/myimg/box.png) no-repeat;
     border-radius: 5px;
     -moz-border-radius: 5px;
     background-clip: padding-box;
     margin: 180px auto;
-    width: 350px;
+    width: 576px;
+    height: 462px;
     padding: 15px 35px;
     .title38 {
       margin: 50px auto 40px;
@@ -174,6 +216,64 @@
         overflow: hidden;
         float: left;
       }
+    }
+    .accountClass {
+    position: absolute;
+    font-family: 黑体;
+    color: rgb(0, 0, 0);
+    font-size: 32px;
+    width: 501px;
+    height: 50px !important;
+    line-height: 50px !important;
+    left: 540px;
+    top: 350px;
+    background: none;
+    border-width: medium;
+    border-style: none;
+    border-color: currentcolor;
+    border-image: none;
+    outline: none;
+    }
+    .pwdClass{
+          position: absolute;
+    font-family: 黑体;
+    color: rgb(0, 0, 0);
+    font-size: 32px;
+    width: 501px;
+    height: 50px !important;
+    line-height: 50px !important;
+    left: 540px;
+    top: 438px;
+    background: none;
+    border-width: medium;
+    border-style: none;
+    border-color: currentcolor;
+    border-image: none;
+    outline: none;
+    }
+    .buttonClass{
+    position: absolute;
+    background: url(../../static/myimg/btn.png) no-repeat;
+    background-size: 100% auto;
+    left: 490px;
+    top: 550px;
+    width: 442px;
+    height: 65px;
+    border: none;
+    }
+    .boxClass{
+
+    position: absolute;
+    top: calc(50% + 90px);
+    left: 50%;
+    /* margin-left: -360px; */
+    /* margin-top: -266.5px; */
+    /* width: 720px; */
+    /* height: 533px; */
+    width: 576px;
+    height: 426.4px;
+    margin-top: -213.2px;
+    margin-left: -288px;
     }
   }
 </style>
