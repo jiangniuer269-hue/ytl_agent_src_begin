@@ -1,5 +1,5 @@
 <template>
-  <div style="background: url('../../static/myimg/loginbg.jpg') 0% 0% / contain; position: absolute; inset: 0px;">
+  <div style="background: url('../../static/myimg/loginbgbg.jpg') 0% 0% / contain; position: absolute; inset: 0px;">
  
     <!--<el-form :model="ruleForm2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">-->
      <!-- <h3   :class="quntitlesize <= 40? 'title58' :'title38'" >
