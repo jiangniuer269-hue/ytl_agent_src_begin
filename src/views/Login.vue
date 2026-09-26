@@ -181,6 +181,7 @@
 
 <style lang="scss" scoped>
   .login-container {
+    position: relative;
     background:  url(../../static/myimg/box.png) no-repeat;
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -225,8 +226,8 @@
     width: 501px;
     height: 50px !important;
     line-height: 50px !important;
-    left: 540px;
-    top: 350px;
+    left: 150px;
+    top: 170px;
     background: none;
     border-width: medium;
     border-style: none;
@@ -242,8 +243,8 @@
     width: 501px;
     height: 50px !important;
     line-height: 50px !important;
-    left: 540px;
-    top: 438px;
+    left: 150px;
+    top: 258px;
     background: none;
     border-width: medium;
     border-style: none;
@@ -255,8 +256,8 @@
     position: absolute;
     background: url(../../static/myimg/btn.png) no-repeat;
     background-size: 100% auto;
-    left: 490px;
-    top: 550px;
+    left: 80px;
+    top: 370px;
     width: 442px;
     height: 65px;
     border: none;
